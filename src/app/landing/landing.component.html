@@ -1,0 +1,44 @@
+<div class="landing-page" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(assets/bg.jpeg);">
+  <div class="welcome-section">
+    <h1 class="welcome-title">Welcome to Menahem's Bottles Collection</h1>
+  </div>
+
+  <div class="categories-section">
+    <h2 class="section-title">Popular Categories</h2>
+    <div class="cards-grid">
+      <mat-card 
+        *ngFor="let category of categories" 
+        class="category-card"
+        (click)="navigateToCategory(category.name)">
+        <img mat-card-image [src]="category.image" [alt]="category.name" (error)="onImageError($event)">
+        <mat-card-content>
+          <h3>{{ category.name }}</h3>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="countries-section">
+    <h2 class="section-title">Popular Countries</h2>
+    <div class="cards-grid">
+      <mat-card 
+        *ngFor="let country of countries" 
+        class="country-card"
+        (click)="navigateToCountry(country.name)">
+        <mat-card-content>
+          <div class="country-content">
+            <span class="flag-emoji">{{ country.flag }}</span>
+            <h3>{{ country.name }}</h3>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="browse-all-section">
+    <button mat-raised-button color="primary" class="browse-all-button" (click)="navigateToBrowseAll()">
+      Browse All Bottles
+    </button>
+  </div>
+</div>
+

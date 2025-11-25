@@ -11,9 +11,11 @@ import { ManageComponent } from './manage/manage.component';
 import { BottlesComponent } from './bottles/bottles.component';
 import { AdminGuard } from './users/AdminGuard';
 import { NewListComponent } from './new-list/new-list.component';
+import { LandingComponent } from './landing/landing.component';
 
 
 const routes: Routes = [
+  { path: 'home', component: LandingComponent },
   { path: '', component: NewListComponent },
   { path: 'bottles', component: BottlesComponent, canActivate: [AuthenticatedInGuard] },
   { path: 'Settings', component: ManageComponent, canActivate: [AdminGuard] },

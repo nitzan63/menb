@@ -8,6 +8,7 @@ import { BottlesComponent } from '../bottles/bottles.component';
 import { InputAreaComponent } from '../common/input-area/input-area.component';
 import { terms } from '../terms';
 import { Roles } from '../users/roles';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-list',
@@ -16,7 +17,7 @@ import { Roles } from '../users/roles';
 })
 export class NewListComponent implements OnInit, AfterViewInit {
 
-  constructor(public remult: Remult, private busy: BusyService, public auth: AuthService, private route: RouteHelperService) {
+  constructor(public remult: Remult, private busy: BusyService, public auth: AuthService, private route: RouteHelperService, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -70,7 +71,24 @@ export class NewListComponent implements OnInit, AfterViewInit {
   paginator?: Paginator<Bottles>;
   count = 0;
   async ngOnInit() {
-    await this.reloadData();
+    // Read query parameters for filtering
+    this.activatedRoute.queryParams.subscribe(async params => {
+      const category = params['category'];
+      const country = params['country'];
+      
+      if (category) {
+        this.searchString = 't:' + category;
+        console.log('Filtering by category:', category, 'Search string:', this.searchString);
+      } else if (country) {
+        this.searchString = 'c:' + country;
+        console.log('Filtering by country:', country, 'Search string:', this.searchString);
+      } else {
+        this.searchString = '';
+        console.log('No filter, showing all bottles');
+      }
+      
+      await this.reloadData();
+    });
   }
   terms = terms;
   loadCount = 0;

@@ -32,6 +32,7 @@ import { AuthService } from './auth.service';
 import { NewListComponent } from './new-list/new-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BottleCardComponent } from './bottle-card/bottle-card.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { BottleCardComponent } from './bottle-card/bottle-card.component';
     RunningNumberComponent,
     BottleInfoComponent,
     NewListComponent,
-    BottleCardComponent
+    BottleCardComponent,
+    LandingComponent
   ],
   imports: [
     MatProgressSpinnerModule,

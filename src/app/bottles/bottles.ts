@@ -102,28 +102,61 @@ export class Bottles extends IdEntity {
           s = s.substring(2);
         }
         let contains: ContainsStringValueFilter = { $contains: s };
-        result.push({
-          $or: [
-            !(prefix == 'n' || !prefix) ? undefined! : { name: contains },
-            !(prefix == 'm' || !prefix)
-              ? undefined!
-              : { manufacturer: contains },
-            !!prefix ? undefined! : { comments: contains },
-            !(prefix == 'c' || !prefix)
-              ? undefined!
-              : {
-                  country: await r
-                    .repo(Countries)
-                    .find({ where: { name: contains } }),
-                },
-            !(prefix == 't' || !prefix)
-              ? undefined!
-              : {
-                  type: await r.repo(Types).find({ where: { name: contains } }),
-                },
-          ],
-        });
+        const orConditions: any[] = [];
+        
+        if (prefix == 'n') {
+          // Only search by name
+          orConditions.push({ name: contains });
+        } else if (prefix == 'm') {
+          // Only search by manufacturer
+          orConditions.push({ manufacturer: contains });
+        } else if (prefix == 'c') {
+          // Only search by country
+          const matchingCountries = await r
+            .repo(Countries)
+            .find({ where: { name: contains } });
+          orConditions.push({
+            country: matchingCountries,
+          });
+        } else if (prefix == 't') {
+          // Only search by type
+          const matchingTypes = await r.repo(Types).find({ where: { name: contains } });
+          orConditions.push({
+            type: matchingTypes,
+          });
+        } else {
+          // No prefix - search in all fields
+          orConditions.push({ name: contains });
+          orConditions.push({ manufacturer: contains });
+          orConditions.push({ comments: contains });
+          const matchingCountries = await r
+            .repo(Countries)
+            .find({ where: { name: contains } });
+          if (matchingCountries.length > 0) {
+            orConditions.push({
+              country: matchingCountries,
+            });
+          }
+          const matchingTypes = await r.repo(Types).find({ where: { name: contains } });
+          if (matchingTypes.length > 0) {
+            orConditions.push({
+              type: matchingTypes,
+            });
+          }
+        }
+        
+        // Always add to result if we have conditions
+        // For prefix filters, if no matches found, add an impossible condition to show no results
+        if (orConditions.length > 0) {
+          result.push({ $or: orConditions });
+        } else if (prefix) {
+          // Prefix filter with no matches - return filter that matches nothing
+          result.push({ id: 'no-matches-found-' + Date.now() });
+        }
       }
+    }
+    if (result.length === 0) {
+      return undefined!;
     }
     return { $and: result };
   });
