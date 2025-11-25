@@ -5,74 +5,112 @@
       <div>
         <data-area [settings]="leftArea"></data-area>
 
-        <div style="text-align: center; min-height: 200px; position: relative">
-          <img
-            *ngIf="image"
-            [src]="imageSrc(image)"
-            style="max-width: 400px; width: 100%; height: 100%"
-          />
-          <div
-            [class.dontDisplay]="!inDrag && this.image.image"
-            style="
-              position: absolute;
-              top: 0px;
-              background-color: lightgray;
-              height: 100%;
-              width: 100%;
+        <div class="image-gallery-admin">
+          <div class="main-image-container-admin" [class.drag-over]="inDrag">
+            <img
+              *ngIf="image && image.image"
+              [src]="imageSrc(image)"
+              class="main-image-admin"
+            />
+            <div
+              class="drop-zone"
+              [class.dontDisplay]="!inDrag && this.image.image"
+              (dragenter)="dragEnter($event)"
+              (dragover)="dragEnter($event)"
+              (dragleave)="dragLeave($event)"
+              (drop)="dropFile($event)"
+              (click)="openImage()"
+            >
+              <mat-icon>cloud_upload</mat-icon>
+              <h3>מקם קובץ תמונה כאן</h3>
+              <p>או לחץ כדי לבחור קובץ</p>
+            </div>
 
-              justify-content: space-around;
-              align-items: center;
-            "
-            (dragenter)="dragEnter($event)"
-            (dragover)="dragEnter($event)"
-            (dragleave)="dragLeave($event)"
-            (drop)="dropFile($event)"
-            (click)="openImage()"
-          >
-            <h1>מקם קובץ תמונה כאן</h1>
+            <!-- Large Navigation Arrows -->
+            <button 
+              *ngIf="images.length > 1 && imageIndex > 0"
+              mat-icon-button 
+              class="nav-arrow-admin nav-arrow-left-admin"
+              (click)="back()"
+              aria-label="Previous image">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button 
+              *ngIf="images.length > 1 && imageIndex < images.length - 1"
+              mat-icon-button 
+              class="nav-arrow-admin nav-arrow-right-admin"
+              (click)="next()"
+              aria-label="Next image">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+
+            <!-- Image Counter -->
+            <div *ngIf="images.length > 1" class="image-counter-admin">
+              {{ imageIndex + 1 }} / {{ images.length }}
+            </div>
+
+            <!-- Admin Controls Overlay -->
+            <div class="admin-controls-overlay">
+              <input
+                #fileInput
+                type="file"
+                (input)="onFileInput($event)"
+                accept="image/*"
+                id="uploadImage"
+                style="display: none"
+              />
+              <button mat-mini-fab color="primary" matTooltip="העלה תמונה">
+                <label for="uploadImage" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                  <mat-icon>photo_camera</mat-icon>
+                </label>
+              </button>
+              <button
+                mat-mini-fab
+                color="warn"
+                [disabled]="!image.image"
+                (click)="deletePhoto()"
+                matTooltip="מחק תמונה"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button
+                mat-mini-fab
+                color="accent"
+                [disabled]="!image.image"
+                (click)="addAPhoto()"
+                matTooltip="הוסף תמונה חדשה"
+              >
+                <mat-icon>add_a_photo</mat-icon>
+              </button>
+            </div>
           </div>
-        </div>
-        <div style="display: flex; justify-content: space-between">
-          <input
-            #fileInput
-            type="file"
-            (input)="onFileInput($event)"
-            accept="image/*"
-            id="uploadImage"
-            style="display: none"
-          />
 
-          <button mat-icon-button [disabled]="imageIndex == 0" (click)="back()">
-            <mat-icon> arrow_back_ios </mat-icon>
-          </button>
-          <button mat-icon-button>
-            <label for="uploadImage">
-              <mat-icon style="padding-top: 10px">photo_camera</mat-icon>
-            </label>
-          </button>
-
-          <button
-            mat-icon-button
-            [disabled]="imageIndex == 0 && !image.image"
-            (click)="deletePhoto()"
-          >
-            <mat-icon> delete </mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            [disabled]="!image.image"
-            (click)="addAPhoto()"
-          >
-            <mat-icon> add_a_photo </mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            [disabled]="imageIndex >= images.length - 1"
-            (click)="next()"
-          >
-            <mat-icon> arrow_forward_ios </mat-icon>
-          </button>
+          <!-- Thumbnail Strip -->
+          <div *ngIf="images.length > 1" class="thumbnail-strip-admin">
+            <div 
+              *ngFor="let img of images; let i = index"
+              class="thumbnail-admin"
+              [class.active]="i === imageIndex"
+              (click)="goToImage(i)">
+              <img [src]="imageSrc(img) + '&small=1'" [alt]="'Thumbnail ' + (i + 1)" />
+              <button 
+                *ngIf="images.length > 1"
+                mat-icon-button 
+                class="thumbnail-delete"
+                (click)="deleteThumbnail(i, $event)"
+                matTooltip="מחק">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <button 
+              mat-mini-fab 
+              color="primary" 
+              class="add-thumbnail-btn"
+              (click)="addAPhoto()"
+              matTooltip="הוסף תמונה">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,146 @@
+<div class="bottle-view-container">
+  <div class="bottle-view-header">
+    <h2>{{ args.bottle.name }}</h2>
+    <button mat-icon-button (click)="close()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="bottle-view-content">
+    <!-- Image Gallery Section -->
+    <div class="image-gallery-section">
+      <div class="main-image-container" [class.zoomed]="isZoomed">
+        <div class="image-wrapper" 
+             [style.transform]="isZoomed ? 'scale(' + zoomScale + ') translate(' + zoomPosition.x + 'px, ' + zoomPosition.y + 'px)' : 'none'"
+             (wheel)="onImageWheel($event)"
+             (mousemove)="onImageDrag($event)">
+          <img 
+            *ngIf="currentImage"
+            [src]="imageSrc(currentImage)"
+            [alt]="args.bottle.name"
+            (click)="toggleZoom()"
+            (error)="onImageError($event)"
+            class="main-image"
+            [class.zoomable]="hasImages"
+          />
+          <div *ngIf="!hasImages || currentImageIndex === -1" class="no-image-placeholder">
+            <mat-icon>image_not_supported</mat-icon>
+            <p>No images available</p>
+          </div>
+        </div>
+
+        <!-- Image Navigation Arrows -->
+        <button 
+          *ngIf="hasImages && canGoPrevious"
+          mat-icon-button 
+          class="nav-arrow nav-arrow-left"
+          (click)="previousImage()"
+          aria-label="Previous image">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button 
+          *ngIf="hasImages && canGoNext"
+          mat-icon-button 
+          class="nav-arrow nav-arrow-right"
+          (click)="nextImage()"
+          aria-label="Next image">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+
+        <!-- Zoom Controls -->
+        <div *ngIf="isZoomed" class="zoom-controls">
+          <button mat-icon-button (click)="zoomOut()" title="Zoom Out">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <span class="zoom-level">{{ getZoomPercentage() }}%</span>
+          <button mat-icon-button (click)="zoomIn()" title="Zoom In">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-icon-button (click)="resetZoom()" title="Reset Zoom">
+            <mat-icon>fit_screen</mat-icon>
+          </button>
+        </div>
+
+        <!-- Image Counter -->
+        <div *ngIf="hasImages" class="image-counter">
+          {{ currentImageIndex + 1 }} / {{ images.length }}
+        </div>
+      </div>
+
+      <!-- Thumbnail Strip -->
+      <div *ngIf="hasImages && images.length > 1" class="thumbnail-strip">
+        <div 
+          *ngFor="let image of images; let i = index"
+          class="thumbnail"
+          [class.active]="i === currentImageIndex"
+          (click)="goToImage(i)">
+          <img [src]="imageSrc(image) + '&small=1'" [alt]="'Thumbnail ' + (i + 1)" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottle Details Section -->
+    <div class="bottle-details-section">
+      <div class="details-grid">
+        <div class="detail-item" *ngIf="args.bottle.manufacturer">
+          <span class="detail-label">Manufacturer:</span>
+          <span class="detail-value">{{ args.bottle.manufacturer }}</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.country">
+          <span class="detail-label">Country:</span>
+          <span class="detail-value">{{ args.bottle.country.name }}</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.type">
+          <span class="detail-label">Type:</span>
+          <span class="detail-value">{{ args.bottle.type.name }}</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.subType">
+          <span class="detail-label">Sub Type:</span>
+          <span class="detail-value">{{ args.bottle.subType }}</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.alcohol">
+          <span class="detail-label">Alcohol:</span>
+          <span class="detail-value">{{ args.bottle.alcohol }}%</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.volume">
+          <span class="detail-label">Volume:</span>
+          <span class="detail-value">{{ args.bottle.volume }}cl</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.bottleType">
+          <span class="detail-label">Bottle Type:</span>
+          <span class="detail-value">{{ args.bottle.bottleType.name }}</span>
+        </div>
+
+        <div class="detail-item" *ngIf="args.bottle.shape">
+          <span class="detail-label">Shape:</span>
+          <span class="detail-value">{{ args.bottle.shape.name }}</span>
+        </div>
+
+        <div class="detail-item full-width" *ngIf="args.bottle.comments">
+          <span class="detail-label">Comments:</span>
+          <span class="detail-value">{{ args.bottle.comments }}</span>
+        </div>
+
+        <div class="detail-item full-width" *ngIf="args.bottle.shapeComments">
+          <span class="detail-label">Shape Comments:</span>
+          <span class="detail-value">{{ args.bottle.shapeComments }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Hints -->
+  <div class="keyboard-hints">
+    <small>
+      <mat-icon>keyboard</mat-icon>
+      Use arrow keys to navigate • Click image to zoom • ESC to close
+    </small>
+  </div>
+</div>
+

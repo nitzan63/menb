@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BottleCardComponent } from './bottle-card/bottle-card.component';
 import { LandingComponent } from './landing/landing.component';
 import { MyCollectionComponent } from './my-collection/my-collection.component';
+import { BottleViewComponent } from './bottle-view/bottle-view.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MyCollectionComponent } from './my-collection/my-collection.component';
     NewListComponent,
     BottleCardComponent,
     LandingComponent,
-    MyCollectionComponent
+    MyCollectionComponent,
+    BottleViewComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -80,6 +82,6 @@ import { MyCollectionComponent } from './my-collection/my-collection.component';
   ],
   providers: [DialogService, AdminGuard],
   bootstrap: [AppComponent],
-  entryComponents: [YesNoQuestionComponent, InputAreaComponent]
+  entryComponents: [YesNoQuestionComponent, InputAreaComponent, BottleViewComponent]
 })
 export class AppModule { }

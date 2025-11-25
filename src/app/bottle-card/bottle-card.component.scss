@@ -1,17 +1,61 @@
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
 
-  
-  .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
+img {
+  height: 300px;
+  object-fit: contain;
+}
 
-  img{
-      height:300px;
-      object-fit: contain;
+::ng-deep .spin {
+  >svg>circle {
+    stroke: white;
   }
-  ::ng-deep .spin{
-     > svg > circle
-    {
-      stroke:white;
+}
+
+.bottle-card {
+  &.clickable {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(-2px);
     }
   }
+
+  .bottle-card-actions-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+    margin: 0;
+    visibility: visible;
+    opacity: 1;
+    min-height: auto;
+  }
+
+  .action-button,
+  .view-button {
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

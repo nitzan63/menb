@@ -1,6 +1,6 @@
-<mat-card>
-    <img mat-card-image src="/api/images/{{b.id}}?{{b.imageReloadVersion}}&small=1">
-    <mat-card-content>
+<mat-card class="bottle-card" [class.clickable]="!isAdmin()" (click)="onCardClick($event)" (touchend)="onCardClick($event)">
+    <img mat-card-image src="/api/images/{{b.id}}?{{b.imageReloadVersion}}&small=1" [style.cursor]="!isAdmin() ? 'pointer' : 'default'" (click)="onImageClick($event)" (touchend)="onImageClick($event)">
+    <mat-card-content [style.cursor]="!isAdmin() ? 'pointer' : 'default'">
         <p>{{b.name}}</p>
         <p>{{b.manufacturer}} - {{b.country?.name}}</p>
         <p>{{b.type?.name}} </p>
@@ -8,9 +8,12 @@
             {{b.comments}}
         </p>
     </mat-card-content>
-    <mat-card-actions *ngIf="isAdmin()">
-        <button mat-mini-fab color="none" (click)="edit(b)">
+    <div class="bottle-card-actions-wrapper">
+        <button *ngIf="isAdmin()" mat-mini-fab color="none" (click)="edit(b); $event.stopPropagation()" (touchend)="$event.stopPropagation()" class="action-button">
             <mat-icon>edit</mat-icon>
         </button>
-    </mat-card-actions>
+        <button *ngIf="!isAdmin()" mat-icon-button color="primary" (click)="view(b); $event.stopPropagation()" (touchend)="$event.stopPropagation()" class="view-button" matTooltip="View Details">
+            <mat-icon>visibility</mat-icon>
+        </button>
+    </div>
 </mat-card>

@@ -42,6 +42,21 @@ export class BottleInfoComponent implements OnInit {
       this.imageIndex++;
     }
   }
+  goToImage(index: number) {
+    if (index >= 0 && index < this.images.length) {
+      this.imageIndex = index;
+    }
+  }
+  deleteThumbnail(index: number, event: Event) {
+    event.stopPropagation();
+    if (this.images[index]) {
+      this.toDeleteImages.push(this.images[index]);
+      this.images = this.images.filter((x) => x != this.images[index]);
+      if (this.imageIndex >= this.images.length)
+        this.imageIndex = this.images.length - 1;
+      if (this.imageIndex < 0) this.imageIndex = 0;
+    }
+  }
   addAPhoto() {
     this.images.push(this.args.bottle.images.create());
     this.imageIndex = this.images.length - 1;
