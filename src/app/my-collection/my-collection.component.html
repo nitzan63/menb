@@ -1,0 +1,132 @@
+<div class="my-collection-page" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(assets/bg.jpeg);">
+  <div class="page-container">
+    <div class="page-header">
+      <h1 class="page-title">My Collection</h1>
+      <button *ngIf="isAdmin()" mat-icon-button class="edit-button" (click)="editCollectionInfo()" matTooltip="Edit Collection Info">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <mat-card class="collection-card">
+      <mat-card-content>
+        <div class="collection-content">
+          <div class="collection-description">
+            <h3>About the Collection</h3>
+            <p *ngIf="collectionInfo?.description; else defaultDescription">
+              {{ collectionInfo?.description }}
+            </p>
+            <ng-template #defaultDescription>
+              <p class="placeholder-text">No description yet. Click edit to add one.</p>
+            </ng-template>
+          </div>
+
+          <div class="contact-details">
+            <h3>Contact</h3>
+            <div class="contact-info">
+              <p *ngIf="collectionInfo?.email">
+                <mat-icon>email</mat-icon> 
+                <a [href]="'mailto:' + collectionInfo?.email">{{ collectionInfo?.email }}</a>
+              </p>
+              <p *ngIf="collectionInfo?.phone">
+                <mat-icon>phone</mat-icon> 
+                <a [href]="'tel:' + collectionInfo?.phone">{{ collectionInfo?.phone }}</a>
+              </p>
+              <p *ngIf="collectionInfo?.location">
+                <mat-icon>location_on</mat-icon> {{ collectionInfo?.location }}
+              </p>
+              <p *ngIf="!collectionInfo?.email && !collectionInfo?.phone && !collectionInfo?.location" class="placeholder-text">
+                No contact information yet. Click edit to add.
+              </p>
+            </div>
+          </div>
+
+          <div class="galleries-section">
+            <div class="section-header">
+              <h3>Photo Galleries</h3>
+              <button *ngIf="isAdmin()" mat-raised-button color="primary" (click)="editGallery()">
+                <mat-icon>add</mat-icon> Add Gallery
+              </button>
+            </div>
+            
+            <div *ngIf="galleries.length > 0; else noGalleries" class="gallery-container">
+              <div class="gallery-slider" #gallerySlider>
+                <div class="gallery-item" *ngFor="let gallery of galleries; let i = index" [class.active]="currentGalleryIndex === i">
+                  <img [src]="galleryImageSrc(gallery)" [alt]="gallery.title" (error)="onImageError($event)">
+                  <div class="gallery-caption">{{ gallery.title }}</div>
+                  <div *ngIf="isAdmin()" class="gallery-admin-controls">
+                    <button mat-icon-button (click)="editGallery(gallery)" matTooltip="Edit">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteGallery(gallery)" matTooltip="Delete">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="gallery-controls">
+                <button mat-icon-button (click)="previousGallery()" [disabled]="currentGalleryIndex === 0">
+                  <mat-icon>chevron_left</mat-icon>
+                </button>
+                <div class="gallery-indicators">
+                  <span *ngFor="let gallery of galleries; let i = index" 
+                        [class.active]="currentGalleryIndex === i"
+                        (click)="goToGallery(i)"></span>
+                </div>
+                <button mat-icon-button (click)="nextGallery()" [disabled]="currentGalleryIndex === galleries.length - 1">
+                  <mat-icon>chevron_right</mat-icon>
+                </button>
+              </div>
+            </div>
+            <ng-template #noGalleries>
+              <p class="placeholder-text">No galleries yet. Click "Add Gallery" to add photos.</p>
+            </ng-template>
+
+            <div *ngIf="isAdmin() && galleriesGrid" class="admin-gallery-grid">
+              <data-grid [settings]="galleriesGrid"></data-grid>
+            </div>
+          </div>
+
+          <div class="articles-section">
+            <div class="section-header">
+              <h3>Articles & Stories</h3>
+              <button *ngIf="isAdmin()" mat-raised-button color="primary" (click)="editArticle()">
+                <mat-icon>add</mat-icon> Add Article
+              </button>
+            </div>
+            
+            <div *ngIf="articles.length > 0; else noArticles" class="articles-list">
+              <mat-card *ngFor="let article of articles" class="article-card">
+                <mat-card-header>
+                  <mat-card-title>{{ article.title }}</mat-card-title>
+                  <mat-card-subtitle>{{ article.date }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{ article.excerpt }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>Read More</button>
+                  <span *ngIf="isAdmin()" class="article-admin-buttons">
+                    <button mat-icon-button (click)="editArticle(article)" matTooltip="Edit">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteArticle(article)" matTooltip="Delete">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </span>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+            <ng-template #noArticles>
+              <p class="placeholder-text">No articles yet. Click "Add Article" to add one.</p>
+            </ng-template>
+
+            <div *ngIf="isAdmin() && articlesGrid" class="admin-articles-grid">
+              <data-grid [settings]="articlesGrid"></data-grid>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

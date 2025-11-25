@@ -8,7 +8,7 @@ import { BottlesComponent } from '../bottles/bottles.component';
 import { InputAreaComponent } from '../common/input-area/input-area.component';
 import { terms } from '../terms';
 import { Roles } from '../users/roles';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-list',
@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class NewListComponent implements OnInit, AfterViewInit {
 
-  constructor(public remult: Remult, private busy: BusyService, public auth: AuthService, private route: RouteHelperService, private activatedRoute: ActivatedRoute) {
+  constructor(public remult: Remult, private busy: BusyService, public auth: AuthService, private route: RouteHelperService, private activatedRoute: ActivatedRoute, private router: Router) {
 
   }
 
@@ -32,7 +32,7 @@ export class NewListComponent implements OnInit, AfterViewInit {
   })
   searchString: string = '';
   toBottles() {
-    this.route.navigateToComponent(BottlesComponent);
+    this.router.navigate(['/admin/bottles']);
   }
   isAdmin() {
     return this.remult.isAllowed(Roles.admin);

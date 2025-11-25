@@ -29,16 +29,20 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  navigateToMyCollection(): void {
+    this.router.navigate(['/my-collection']);
+  }
+
   navigateToCategory(categoryName: string): void {
-    this.router.navigate(['/'], { queryParams: { category: categoryName } });
+    this.router.navigate(['/bottles'], { queryParams: { category: categoryName } });
   }
 
   navigateToCountry(countryName: string): void {
-    this.router.navigate(['/'], { queryParams: { country: countryName } });
+    this.router.navigate(['/bottles'], { queryParams: { country: countryName } });
   }
 
   navigateToBrowseAll(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/bottles']);
   }
 
   onImageError(event: Event): void {

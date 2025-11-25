@@ -12,12 +12,14 @@ import { BottlesComponent } from './bottles/bottles.component';
 import { AdminGuard } from './users/AdminGuard';
 import { NewListComponent } from './new-list/new-list.component';
 import { LandingComponent } from './landing/landing.component';
+import { MyCollectionComponent } from './my-collection/my-collection.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: LandingComponent },
-  { path: '', component: NewListComponent },
-  { path: 'bottles', component: BottlesComponent, canActivate: [AuthenticatedInGuard] },
+  { path: '', component: LandingComponent, data: { name: 'Home' } },
+  { path: 'bottles', component: NewListComponent, data: { name: 'Browse Bottles' } },
+  { path: 'my-collection', component: MyCollectionComponent },
+  { path: 'admin/bottles', component: BottlesComponent, canActivate: [AuthenticatedInGuard] },
   { path: 'Settings', component: ManageComponent, canActivate: [AdminGuard] },
   { path: 'Users', component: UsersComponent, canActivate: [AdminGuard] },
     { path: '**', redirectTo: '/', pathMatch: 'full' }

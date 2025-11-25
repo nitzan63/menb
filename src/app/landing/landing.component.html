@@ -35,6 +35,21 @@
     </div>
   </div>
 
+  <div class="my-collection-section">
+    <h2 class="section-title">Learn More</h2>
+    <div class="cards-grid">
+      <mat-card class="collection-link-card" (click)="navigateToMyCollection()">
+        <mat-card-content>
+          <div class="collection-link-content">
+            <mat-icon class="collection-icon">collections</mat-icon>
+            <h3>My Collection</h3>
+            <p>Learn about the collection, view galleries, read articles, and get in touch</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
   <div class="browse-all-section">
     <button mat-raised-button color="primary" class="browse-all-button" (click)="navigateToBrowseAll()">
       Browse All Bottles

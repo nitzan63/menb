@@ -14,6 +14,11 @@ export const config = {
   folder: 'bottleImages',
 };
 
+export const galleryConfig = {
+  schema: 'menb',
+  folder: 'galleryImages',
+};
+
 export async function playWithS3(remult: Remult) {
   return;
   let i = 0;
@@ -36,7 +41,7 @@ export async function playWithS3(remult: Remult) {
   }
 }
 
-export async function base64ToS3(key: string, image: string) {
+export async function base64ToS3(key: string, image: string, folder: string = config.folder) {
   const s3Client = new S3Client({ region: 'eu-west-1' });
   let split = image.split(',');
   let type = split[0].substring(5).replace(';base64', '');
@@ -44,7 +49,7 @@ export async function base64ToS3(key: string, image: string) {
   const result = await s3Client.send(
     new PutObjectCommand({
       Bucket: 'menb',
-      Key: config.schema + '/' + config.folder + '/' + key,
+      Key: config.schema + '/' + folder + '/' + key,
       ContentType: type,
       Body: buffer,
     })
@@ -52,12 +57,12 @@ export async function base64ToS3(key: string, image: string) {
   return result;
 }
 
-export async function getFromS3(key: string) {
+export async function getFromS3(key: string, folder: string = config.folder) {
   const s3Client = new S3Client({ region: 'eu-west-1' });
   const result = await s3Client.send(
     new GetObjectCommand({
       Bucket: 'menb',
-      Key: config.schema + '/' + config.folder + '/' + key,
+      Key: config.schema + '/' + folder + '/' + key,
     })
   );
   return {

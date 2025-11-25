@@ -103,10 +103,12 @@ export class AppComponent implements OnInit {
   }
 
   routeName(route: Route) {
-    let name = route.path;
+    // Use the name from route data if available, otherwise use the path (or 'Home' for root)
     if (route.data && route.data['name'])
-      name = route.data['name'];
-    return name;
+      return route.data['name'];
+    if (route.path === '' || route.path === '/')
+      return 'Home';
+    return route.path || 'Home';
   }
 
   currentTitle() {
@@ -122,7 +124,10 @@ export class AppComponent implements OnInit {
   }
 
   shouldDisplayRoute(route: Route) {
-    if (!(route.path && route.path.indexOf(':') < 0 && route.path.indexOf('**') < 0))
+    // Allow empty path (root route) and filter out routes with : or **
+    if (route.path === undefined || route.path === null)
+      return false;
+    if (route.path.indexOf(':') >= 0 || route.path.indexOf('**') >= 0)
       return false;
     return this.routeHelper.canNavigateToRoute(route);
   }

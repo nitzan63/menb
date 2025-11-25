@@ -31,8 +31,10 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
 import { NewListComponent } from './new-list/new-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BottleCardComponent } from './bottle-card/bottle-card.component';
 import { LandingComponent } from './landing/landing.component';
+import { MyCollectionComponent } from './my-collection/my-collection.component';
 
 @NgModule({
   declarations: [
@@ -47,10 +49,12 @@ import { LandingComponent } from './landing/landing.component';
     BottleInfoComponent,
     NewListComponent,
     BottleCardComponent,
-    LandingComponent
+    LandingComponent,
+    MyCollectionComponent
   ],
   imports: [
     MatProgressSpinnerModule,
+    MatTooltipModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

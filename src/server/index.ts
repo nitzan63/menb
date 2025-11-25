@@ -18,6 +18,8 @@ import * as compression from 'compression';
 import { getJwtTokenSignKey } from '../app/users/users';
 import '../app/bottles/bottles';
 import { BottleImages, SmallImages } from '../app/bottles/bottles';
+import '../app/my-collection/collection-data';
+import { Gallery } from '../app/my-collection/collection-data';
 import * as sharp from 'sharp';
 import { Pool, QueryResult } from 'pg';
 import { Remult, SqlDatabase } from 'remult';
@@ -145,6 +147,43 @@ async function startup() {
         res.contentType(type);
         res.send(buffer);
       }
+    } catch (err: any) {
+      console.log({ url: req.url, err });
+      res.status(500).json(err);
+    }
+  });
+
+  app.get('/api/gallery-images/:id', async (req, res) => {
+    try {
+      const noImage = () =>
+        res.sendFile(process.cwd() + '/dist/men-collection/assets/wine.png');
+
+      if (process.env['NO_IMAGE']) {
+        return noImage();
+      }
+      let remult = await api.getRemult(req);
+      const gallery = await remult.repo(Gallery).findId(req.params.id);
+      if (!gallery || !gallery.imageUrl) {
+        return noImage();
+      }
+
+      if (gallery.imageUrl === 's3') {
+        const r = await getFromS3(gallery.id, 'galleryImages');
+        res.contentType(r.ContentType!);
+        res.send(await r.getBuffer());
+        return;
+      }
+
+      if (gallery.imageUrl.includes(',')) {
+        // Base64 image
+        let split = gallery.imageUrl.split(',');
+        let type = split[0].substring(5).replace(';base64', '');
+        res.contentType(type);
+        res.send(Buffer.from(split[1], 'base64'));
+        return;
+      }
+
+      return noImage();
     } catch (err: any) {
       console.log({ url: req.url, err });
       res.status(500).json(err);
