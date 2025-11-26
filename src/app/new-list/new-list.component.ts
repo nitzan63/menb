@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { BusyService, DataControl, openDialog, RouteHelperService } from '@remult/angular';
 import { Field, getFields, Paginator, Remult } from 'remult';
 import { AuthService } from '../auth.service';
@@ -9,13 +9,14 @@ import { InputAreaComponent } from '../common/input-area/input-area.component';
 import { terms } from '../terms';
 import { Roles } from '../users/roles';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-list',
   templateUrl: './new-list.component.html',
   styleUrls: ['./new-list.component.scss']
 })
-export class NewListComponent implements OnInit, AfterViewInit {
+export class NewListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(public remult: Remult, private busy: BusyService, public auth: AuthService, private route: RouteHelperService, private activatedRoute: ActivatedRoute, private router: Router) {
 
@@ -70,25 +71,30 @@ export class NewListComponent implements OnInit, AfterViewInit {
   bottles: Bottles[] = [];
   paginator?: Paginator<Bottles>;
   count = 0;
+  private queryParamsSubscription?: Subscription;
+
   async ngOnInit() {
     // Read query parameters for filtering
-    this.activatedRoute.queryParams.subscribe(async params => {
+    this.queryParamsSubscription = this.activatedRoute.queryParams.subscribe(async params => {
       const category = params['category'];
       const country = params['country'];
       
       if (category) {
         this.searchString = 't:' + category;
-        console.log('Filtering by category:', category, 'Search string:', this.searchString);
       } else if (country) {
         this.searchString = 'c:' + country;
-        console.log('Filtering by country:', country, 'Search string:', this.searchString);
       } else {
         this.searchString = '';
-        console.log('No filter, showing all bottles');
       }
       
       await this.reloadData();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
   }
   terms = terms;
   loadCount = 0;

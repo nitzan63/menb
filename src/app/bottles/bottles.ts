@@ -115,15 +115,19 @@ export class Bottles extends IdEntity {
           const matchingCountries = await r
             .repo(Countries)
             .find({ where: { name: contains } });
-          orConditions.push({
-            country: matchingCountries,
-          });
+          if (matchingCountries.length > 0) {
+            orConditions.push({
+              country: matchingCountries,
+            });
+          }
         } else if (prefix == 't') {
           // Only search by type
           const matchingTypes = await r.repo(Types).find({ where: { name: contains } });
-          orConditions.push({
-            type: matchingTypes,
-          });
+          if (matchingTypes.length > 0) {
+            orConditions.push({
+              type: matchingTypes,
+            });
+          }
         } else {
           // No prefix - search in all fields
           orConditions.push({ name: contains });

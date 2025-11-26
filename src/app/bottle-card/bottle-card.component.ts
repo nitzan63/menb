@@ -53,10 +53,7 @@ export class BottleCardComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    const result = this.remult.isAllowed(Roles.admin);
-    // Debug: log to see if admin check is working
-    console.log('isAdmin check:', result, 'authenticated:', this.remult.authenticated());
-    return result;
+    return this.remult.isAllowed(Roles.admin);
   }
 
 

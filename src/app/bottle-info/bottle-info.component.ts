@@ -50,8 +50,9 @@ export class BottleInfoComponent implements OnInit {
   deleteThumbnail(index: number, event: Event) {
     event.stopPropagation();
     if (this.images[index]) {
-      this.toDeleteImages.push(this.images[index]);
-      this.images = this.images.filter((x) => x != this.images[index]);
+      const imageToDelete = this.images[index];
+      this.toDeleteImages.push(imageToDelete);
+      this.images = this.images.filter((x) => x !== imageToDelete);
       if (this.imageIndex >= this.images.length)
         this.imageIndex = this.images.length - 1;
       if (this.imageIndex < 0) this.imageIndex = 0;
