@@ -36,6 +36,7 @@ import { BottleCardComponent } from './bottle-card/bottle-card.component';
 import { LandingComponent } from './landing/landing.component';
 import { MyCollectionComponent } from './my-collection/my-collection.component';
 import { BottleViewComponent } from './bottle-view/bottle-view.component';
+import { HomeConfigComponent } from './home-config/home-config.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { BottleViewComponent } from './bottle-view/bottle-view.component';
     BottleCardComponent,
     LandingComponent,
     MyCollectionComponent,
-    BottleViewComponent
+    BottleViewComponent,
+    HomeConfigComponent
   ],
   imports: [
     MatProgressSpinnerModule,

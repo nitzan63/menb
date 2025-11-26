@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Remult } from 'remult';
+import { HomeCategory, HomeCountry } from '../my-collection/collection-data';
 
 @Component({
   selector: 'app-landing',
@@ -8,37 +10,45 @@ import { Router } from '@angular/router';
 })
 export class LandingComponent implements OnInit {
 
-  categories = [
-    { name: 'Whisky', image: 'assets/categories/whiskey.jpg' },
-    { name: 'Cognac', image: 'assets/categories/cognac.jpg' },
-    { name: 'Vodka', image: 'assets/categories/vodka.jpg' },
-    { name: 'Rum', image: 'assets/categories/rum.jpg' }
-  ];
+  categories: HomeCategory[] = [];
+  countries: HomeCountry[] = [];
 
-  countries = [
-    { name: 'Israel', flag: '🇮🇱' },
-    { name: 'Japan', flag: '🇯🇵' },
-    { name: 'Holland', flag: '🇳🇱' },
-    { name: 'Italy', flag: '🇮🇹' },
-    { name: 'USA', flag: '🇺🇸' },
-    { name: 'France', flag: '🇫🇷' }
-  ];
+  constructor(private router: Router, private remult: Remult) { }
 
-  constructor(private router: Router) { }
+  async ngOnInit(): Promise<void> {
+    await this.loadHomeConfig();
+  }
 
-  ngOnInit(): void {
+  private async loadHomeConfig(): Promise<void> {
+    try {
+      this.categories = await this.remult.repo(HomeCategory).find({
+        where: { enabled: true },
+        orderBy: { order: 'asc' }
+      });
+
+      this.countries = await this.remult.repo(HomeCountry).find({
+        where: { enabled: true },
+        orderBy: { order: 'asc' }
+      });
+    } catch (error) {
+      console.error('Failed to load home configuration', error);
+      this.categories = [];
+      this.countries = [];
+    }
   }
 
   navigateToMyCollection(): void {
     this.router.navigate(['/my-collection']);
   }
 
-  navigateToCategory(categoryName: string): void {
-    this.router.navigate(['/bottles'], { queryParams: { category: categoryName } });
+  navigateToCategory(category: HomeCategory): void {
+    const value = category.filterValue || category.name;
+    this.router.navigate(['/bottles'], { queryParams: { category: value } });
   }
 
-  navigateToCountry(countryName: string): void {
-    this.router.navigate(['/bottles'], { queryParams: { country: countryName } });
+  navigateToCountry(country: HomeCountry): void {
+    const value = country.filterValue || country.name;
+    this.router.navigate(['/bottles'], { queryParams: { country: value } });
   }
 
   navigateToBrowseAll(): void {

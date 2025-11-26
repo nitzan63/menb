@@ -76,3 +76,56 @@ export class Article extends IdEntity {
   }
 }
 
+@Entity<HomeCategory>('HomeCategory', {
+  allowApiCrud: Roles.admin,
+  allowApiRead: true,
+  defaultOrderBy: { order: 'asc' },
+})
+export class HomeCategory extends IdEntity {
+  @Field({ caption: 'Display Name' })
+  name: string = '';
+
+  @Field({ caption: 'Filter Type (t:... value)' })
+  filterValue: string = '';
+
+  @Field({ caption: 'Image' })
+  image: string = '';
+
+  @Field({ caption: 'Order' })
+  order: number = 0;
+
+  @Field({ caption: 'Show on Home' })
+  enabled: boolean = true;
+
+  constructor(public remult: Remult) {
+    super();
+  }
+}
+
+@Entity<HomeCountry>('HomeCountry', {
+  allowApiCrud: Roles.admin,
+  allowApiRead: true,
+  defaultOrderBy: { order: 'asc' },
+})
+export class HomeCountry extends IdEntity {
+  @Field({ caption: 'Display Name' })
+  name: string = '';
+
+  @Field({ caption: 'Filter Country (c:... value)' })
+  filterValue: string = '';
+
+  @Field({ caption: 'Flag Emoji' })
+  flagEmoji: string = '';
+
+  @Field({ caption: 'Order' })
+  order: number = 0;
+
+  @Field({ caption: 'Show on Home' })
+  enabled: boolean = true;
+
+  constructor(public remult: Remult) {
+    super();
+  }
+}
+
+

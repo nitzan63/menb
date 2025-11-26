@@ -1,0 +1,48 @@
+<div class="home-config-page">
+  <h2>Home Page Configuration</h2>
+
+  <mat-card class="config-card">
+    <mat-card-header>
+      <mat-card-title>Home Categories</mat-card-title>
+      <mat-card-subtitle>
+        Configure which categories appear on the landing page and how they are filtered.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="categoriesGrid; else noCategoriesGrid">
+        <data-grid [settings]="categoriesGrid"></data-grid>
+      </div>
+      <ng-template #noCategoriesGrid>
+        <p>Categories grid is not available.</p>
+      </ng-template>
+      <p class="hint">
+        💡 <strong>Filter Type</strong> should match the bottle type name used in search (for example:
+        <code>Whisky</code>, <code>Cognac</code>). This is what will be sent as <code>t:VALUE</code> to the search.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="config-card">
+    <mat-card-header>
+      <mat-card-title>Home Countries</mat-card-title>
+      <mat-card-subtitle>
+        Configure which countries appear on the landing page and how they are filtered.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="countriesGrid; else noCountriesGrid">
+        <data-grid [settings]="countriesGrid"></data-grid>
+      </div>
+      <ng-template #noCountriesGrid>
+        <p>Countries grid is not available.</p>
+      </ng-template>
+      <p class="hint">
+        💡 <strong>Filter Country</strong> should match the bottle country name used in search
+        (for example: <code>Israel</code>, <code>Japan</code>). This is what will be sent as
+        <code>c:VALUE</code> to the search. Use the <strong>Flag Emoji</strong> field for the flag you want to show.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
