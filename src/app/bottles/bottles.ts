@@ -175,7 +175,7 @@ export class Bottles extends IdEntity {
   'bottleImages',
   {
     allowApiCrud: Roles.admin,
-    allowApiRead: Allow.authenticated,
+    allowApiRead: true,
     defaultOrderBy: { num: 'asc' },
   },
   (options, remult) =>
@@ -215,4 +215,6 @@ export class SmallImages extends IdEntity {
   image: string = '';
   @Field()
   contentType: string = '';
+  @IntegerField()
+  num: number = 0;
 }

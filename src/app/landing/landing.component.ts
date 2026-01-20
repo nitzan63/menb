@@ -12,6 +12,7 @@ export class LandingComponent implements OnInit {
 
   categories: HomeCategory[] = [];
   countries: HomeCountry[] = [];
+  showMyCollectionSection = false;
 
   constructor(private router: Router, private remult: Remult) { }
 
@@ -23,12 +24,12 @@ export class LandingComponent implements OnInit {
     try {
       this.categories = await this.remult.repo(HomeCategory).find({
         where: { enabled: true },
-        orderBy: { order: 'asc' }
+        orderBy: { displayOrder: 'asc' }
       });
 
       this.countries = await this.remult.repo(HomeCountry).find({
         where: { enabled: true },
-        orderBy: { order: 'asc' }
+        orderBy: { displayOrder: 'asc' }
       });
     } catch (error) {
       console.error('Failed to load home configuration', error);

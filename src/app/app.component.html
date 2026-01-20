@@ -28,6 +28,9 @@
 
       </div>
       <h4 *ngIf="remult.authenticated()">{{terms.hello}} {{remult.user.name}}</h4>
+      <p *ngIf="remult.authenticated()" style="font-size: 12px; color: #666; padding: 0 16px; margin: 8px 0;">
+        Admin: {{isAdmin() ? '✅ Yes' : '❌ No'}}
+      </p>
       <mat-nav-list role="list">
         <ng-container *ngFor="let m of router.config">
           <mat-list-item *ngIf="shouldDisplayRoute(m)" routerLinkActive="active-route">

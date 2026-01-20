@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'bottles', component: NewListComponent, data: { name: 'Browse Bottles' } },
   { path: 'my-collection', component: MyCollectionComponent },
   {
-    path: 'admin/home-config',
+    path: 'HomeConfig',
     component: HomeConfigComponent,
     canActivate: [AdminGuard],
     data: { name: 'Home Config' },

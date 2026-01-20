@@ -79,7 +79,7 @@ export class Article extends IdEntity {
 @Entity<HomeCategory>('HomeCategory', {
   allowApiCrud: Roles.admin,
   allowApiRead: true,
-  defaultOrderBy: { order: 'asc' },
+  defaultOrderBy: { displayOrder: 'asc' },
 })
 export class HomeCategory extends IdEntity {
   @Field({ caption: 'Display Name' })
@@ -91,8 +91,8 @@ export class HomeCategory extends IdEntity {
   @Field({ caption: 'Image' })
   image: string = '';
 
-  @Field({ caption: 'Order' })
-  order: number = 0;
+  @Field({ caption: 'Order', dbName: 'display_order' })
+  displayOrder: number = 0;
 
   @Field({ caption: 'Show on Home' })
   enabled: boolean = true;
@@ -105,7 +105,7 @@ export class HomeCategory extends IdEntity {
 @Entity<HomeCountry>('HomeCountry', {
   allowApiCrud: Roles.admin,
   allowApiRead: true,
-  defaultOrderBy: { order: 'asc' },
+  defaultOrderBy: { displayOrder: 'asc' },
 })
 export class HomeCountry extends IdEntity {
   @Field({ caption: 'Display Name' })
@@ -117,8 +117,8 @@ export class HomeCountry extends IdEntity {
   @Field({ caption: 'Flag Emoji' })
   flagEmoji: string = '';
 
-  @Field({ caption: 'Order' })
-  order: number = 0;
+  @Field({ caption: 'Order', dbName: 'display_order' })
+  displayOrder: number = 0;
 
   @Field({ caption: 'Show on Home' })
   enabled: boolean = true;

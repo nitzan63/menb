@@ -124,9 +124,18 @@ async function startup() {
       };
 
       if (req.query['small'] === '1') {
+        let numParam = req.query['num'];
+        let parsedNum =
+          numParam === undefined || Array.isArray(numParam)
+            ? NaN
+            : Number(numParam);
+        const numValue = Number.isFinite(parsedNum) ? parsedNum : 0;
         const smallImage = await remult
           .repo(SmallImages)
-          .findFirst({ bottleId: req.params.id }, { createIfNotFound: true });
+          .findFirst(
+            { bottleId: req.params.id, num: numValue },
+            { createIfNotFound: true }
+          );
         if (smallImage.isNew()) {
           let { buffer, type } = await getImage();
           if (!buffer) return noImage();
@@ -134,6 +143,7 @@ async function startup() {
             await sharp(buffer).resize(200).withMetadata().toBuffer()
           ).toString('base64');
           smallImage.contentType = type;
+          smallImage.num = numValue;
           await smallImage.save();
         }
         res.contentType(smallImage.contentType);

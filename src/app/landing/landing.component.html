@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="my-collection-section">
+  <div class="my-collection-section" *ngIf="showMyCollectionSection">
     <h2 class="section-title">Learn More</h2>
     <div class="cards-grid">
       <mat-card class="collection-link-card" (click)="navigateToMyCollection()">

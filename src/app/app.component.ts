@@ -9,6 +9,7 @@ import { PasswordControl } from "./users/PasswordControl";
 import { InputAreaComponent } from './common/input-area/input-area.component';
 import { AuthService } from './auth.service';
 import { terms } from './terms';
+import { Roles } from './users/roles';
 
 @Component({
   selector: 'app-root',
@@ -129,6 +130,20 @@ export class AppComponent implements OnInit {
       return false;
     if (route.path.indexOf(':') >= 0 || route.path.indexOf('**') >= 0)
       return false;
+    if (route.path === 'my-collection')
+      return false;
+    
+    // Explicitly handle known admin routes
+    const adminRoutes = ['HomeConfig', 'Settings', 'Users'];
+    if (route.path && adminRoutes.includes(route.path)) {
+      const isAdmin = this.remult.isAllowed(Roles.admin);
+      // Temporary debug to help diagnose
+      if (route.path === 'HomeConfig') {
+        console.log('HomeConfig route check - isAdmin:', isAdmin, 'user:', this.remult.user);
+      }
+      return isAdmin;
+    }
+    
     return this.routeHelper.canNavigateToRoute(route);
   }
   //@ts-ignore ignoring this to match angular 7 and 8
@@ -137,6 +152,10 @@ export class AppComponent implements OnInit {
     if (this.dialogService.isScreenSmall())
       this.sidenav.close();
 
+  }
+
+  isAdmin(): boolean {
+    return this.remult.isAllowed(Roles.admin);
   }
 
 

@@ -25,8 +25,8 @@ export class HomeConfigComponent implements OnInit {
 
     this.categoriesGrid = new GridSettings(this.remult.repo(HomeCategory), {
       allowCrud: true,
-      orderBy: { order: 'asc' },
-      columnSettings: (c) => [c.name, c.filterValue, c.order, c.enabled],
+      orderBy: { displayOrder: 'asc' },
+      columnSettings: (c) => [c.name, c.filterValue, c.displayOrder, c.enabled],
       rowButtons: [
         {
           name: 'Edit',
@@ -39,8 +39,8 @@ export class HomeConfigComponent implements OnInit {
 
     this.countriesGrid = new GridSettings(this.remult.repo(HomeCountry), {
       allowCrud: true,
-      orderBy: { order: 'asc' },
-      columnSettings: (c) => [c.name, c.filterValue, c.flagEmoji, c.order, c.enabled],
+      orderBy: { displayOrder: 'asc' },
+      columnSettings: (c) => [c.name, c.filterValue, c.flagEmoji, c.displayOrder, c.enabled],
       rowButtons: [
         {
           name: 'Edit',
@@ -64,7 +64,7 @@ export class HomeConfigComponent implements OnInit {
     await openDialog(InputAreaComponent, (d) => {
       d.args = {
         title: category ? 'Edit Home Category' : 'Add Home Category',
-        fields: () => [c.$.name, c.$.filterValue, c.$.order, c.$.enabled],
+        fields: () => [c.$.name, c.$.filterValue, c.$.displayOrder, c.$.enabled],
         buttons: [
           {
             text: 'Upload Image',
@@ -94,7 +94,7 @@ export class HomeConfigComponent implements OnInit {
     await openDialog(InputAreaComponent, (d) => {
       d.args = {
         title: country ? 'Edit Home Country' : 'Add Home Country',
-        fields: () => [c.$.name, c.$.filterValue, c.$.flagEmoji, c.$.order, c.$.enabled],
+        fields: () => [c.$.name, c.$.filterValue, c.$.flagEmoji, c.$.displayOrder, c.$.enabled],
         ok: async () => {
           await c._.save();
         },
