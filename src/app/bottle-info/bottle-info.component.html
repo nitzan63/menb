@@ -11,6 +11,8 @@
               *ngIf="image && image.image"
               [src]="imageSrc(image)"
               class="main-image-admin"
+              (click)="openImage()"
+              style="cursor: pointer"
             />
             <div
               class="drop-zone"
