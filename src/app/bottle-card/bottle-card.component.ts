@@ -15,7 +15,29 @@ export class BottleCardComponent implements OnInit {
 
   constructor(private remult: Remult) { }
   @Input() b!: Bottles;
+
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private readonly TOUCH_THRESHOLD = 10;
+
   ngOnInit(): void {
+  }
+
+  onTouchStart(event: TouchEvent) {
+    if (event.touches.length > 0) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+    }
+  }
+
+  private isTouchMove(event: TouchEvent): boolean {
+    if (event.changedTouches.length > 0) {
+      const touch = event.changedTouches[0];
+      const deltaX = Math.abs(touch.clientX - this.touchStartX);
+      const deltaY = Math.abs(touch.clientY - this.touchStartY);
+      return deltaX > this.TOUCH_THRESHOLD || deltaY > this.TOUCH_THRESHOLD;
+    }
+    return false;
   }
   async edit(bottle: Bottles) {
     await openDialog(BottleInfoComponent, c => c.args = {
@@ -31,11 +53,16 @@ export class BottleCardComponent implements OnInit {
   }
 
   onCardClick(event: MouseEvent | TouchEvent) {
+    // For touch events, check if it was a scroll (touch moved)
+    if (event instanceof TouchEvent && this.isTouchMove(event)) {
+      return;
+    }
+
     // Only open viewer if not admin and click wasn't on a button or image
     const target = event.target as HTMLElement;
     const isButton = target.tagName === 'BUTTON' || target.closest('button') !== null;
     const isImage = target.tagName === 'IMG';
-    
+
     if (!this.isAdmin() && !isButton && !isImage) {
       event.preventDefault();
       event.stopPropagation();
@@ -44,6 +71,11 @@ export class BottleCardComponent implements OnInit {
   }
 
   onImageClick(event: MouseEvent | TouchEvent) {
+    // For touch events, check if it was a scroll (touch moved)
+    if (event instanceof TouchEvent && this.isTouchMove(event)) {
+      return;
+    }
+
     // Always open viewer when clicking image (for non-admins)
     if (!this.isAdmin()) {
       event.preventDefault();

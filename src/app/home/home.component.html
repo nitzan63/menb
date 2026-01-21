@@ -1,20 +1,15 @@
-<div class="mat-typography full-page" style="   
- position: relative;
-
-background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(assets/bg.jpeg);
-background-position: center;
-color: #fff;
-text-align: center;
-background-size: cover;">
+<div class="mat-typography full-page home-page">
   <div class="grow-item">
-    <span class="mat-display-3">אתר הבקבוקים של מנחם</span>
-    <div class="card">
-      <app-number class="mat-display-4" style="margin:0" [value]="value"></app-number>
-      <span class="mat-display-3">בקבוקים</span>
-    </div>
-    <div class="card">
-      <app-number class="mat-display-4" style="margin:0" [value]="countries"></app-number>
-      <span class="mat-display-3">ארצות</span>
+    <h1 class="page-title">אתר הבקבוקים של מנחם</h1>
+    <div class="stats-container">
+      <div class="stat-card">
+        <app-number class="stat-number" [value]="value"></app-number>
+        <span class="stat-label">בקבוקים</span>
+      </div>
+      <div class="stat-card">
+        <app-number class="stat-number" [value]="countries"></app-number>
+        <span class="stat-label">ארצות</span>
+      </div>
     </div>
   </div>
 </div>

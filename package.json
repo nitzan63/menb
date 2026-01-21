@@ -22,7 +22,7 @@
     "@angular/platform-browser": "~13.3.4",
     "@angular/platform-browser-dynamic": "~13.3.4",
     "@angular/router": "~13.3.4",
-    "@auth0/angular-jwt": "^5.0.2",
+    "@auth0/angular-jwt": "^4.2.0",
     "@aws-sdk/client-s3": "^3.521.0",
     "@remult/angular": "^0.10.9",
     "chart.js": "^3.7.0",

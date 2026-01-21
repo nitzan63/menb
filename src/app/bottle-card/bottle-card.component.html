@@ -1,5 +1,7 @@
-<mat-card class="bottle-card" [class.clickable]="!isAdmin()" (click)="onCardClick($event)" (touchend)="onCardClick($event)">
-    <img mat-card-image src="/api/images/{{b.id}}?{{b.imageReloadVersion}}&small=1" [style.cursor]="!isAdmin() ? 'pointer' : 'default'" (click)="onImageClick($event)" (touchend)="onImageClick($event)">
+<mat-card class="bottle-card" [class.clickable]="!isAdmin()" (click)="onCardClick($event)" (touchstart)="onTouchStart($event)" (touchend)="onCardClick($event)">
+    <div class="image-container">
+        <img mat-card-image src="/api/images/{{b.id}}?{{b.imageReloadVersion}}&small=1" [style.cursor]="!isAdmin() ? 'pointer' : 'default'" (click)="onImageClick($event)" (touchstart)="onTouchStart($event)" (touchend)="onImageClick($event)">
+    </div>
     <mat-card-content [style.cursor]="!isAdmin() ? 'pointer' : 'default'">
         <p>{{b.name}}</p>
         <p>{{b.manufacturer}} - {{b.country?.name}}</p>

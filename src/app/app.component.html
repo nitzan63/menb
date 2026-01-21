@@ -1,4 +1,4 @@
-<div  style="height:100%" *ngIf="isHome()">
+<div style="height:100%" *ngIf="isHome()">
   <router-outlet></router-outlet>
 </div>
 
@@ -9,28 +9,42 @@
     </button>
     <span class="toolbar-title">{{currentTitle()}}</span>
     <ng-container *ngIf="!remult.authenticated()">
-      <button mat-flat-button color="primary" (click)="signIn()">{{terms.signIn}}</button>
-      <button mat-flat-button color="primary" (click)="signUp()">{{terms.signUp}}</button>
+      <div class="auth-buttons">
+        <button mat-stroked-button (click)="signIn()">{{terms.signIn}}</button>
+        <button mat-flat-button color="accent" (click)="signUp()">{{terms.signUp}}</button>
+      </div>
     </ng-container>
     <ng-container *ngIf="remult.authenticated()">
-      <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{remult.user.name}}</button>
+      <button mat-button class="user-menu-trigger" [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+        {{remult.user.name}}
+      </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="updateInfo()">{{terms.updateInfo}}</button>
-        <button mat-menu-item (click)="changePassword()">{{terms.changePassword}}</button>
-        <button mat-menu-item (click)="signOut()">{{terms.signOut}}</button>
+        <button mat-menu-item (click)="updateInfo()">
+          <mat-icon>person</mat-icon>
+          {{terms.updateInfo}}
+        </button>
+        <button mat-menu-item (click)="changePassword()">
+          <mat-icon>lock</mat-icon>
+          {{terms.changePassword}}
+        </button>
+        <button mat-menu-item (click)="signOut()">
+          <mat-icon>logout</mat-icon>
+          {{terms.signOut}}
+        </button>
       </mat-menu>
     </ng-container>
   </mat-toolbar>
   <mat-sidenav-container class="app-sidenav-container">
-    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10 no-print" [opened]="false"
+    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z4 no-print" [opened]="false"
       [mode]="dialogService.isScreenSmall()?'over':'side'">
-      <div style="width:100%;text-align: center">
-
+      <div class="sidenav-header" *ngIf="remult.authenticated()">
+        <p class="user-greeting">{{terms.hello}} {{remult.user.name}}</p>
+        <span class="admin-badge" *ngIf="isAdmin()">
+          <mat-icon>admin_panel_settings</mat-icon>
+          Administrator
+        </span>
       </div>
-      <h4 *ngIf="remult.authenticated()">{{terms.hello}} {{remult.user.name}}</h4>
-      <p *ngIf="remult.authenticated()" style="font-size: 12px; color: #666; padding: 0 16px; margin: 8px 0;">
-        Admin: {{isAdmin() ? '✅ Yes' : '❌ No'}}
-      </p>
       <mat-nav-list role="list">
         <ng-container *ngFor="let m of router.config">
           <mat-list-item *ngIf="shouldDisplayRoute(m)" routerLinkActive="active-route">
@@ -38,16 +52,11 @@
           </mat-list-item>
         </ng-container>
       </mat-nav-list>
-
     </mat-sidenav>
-    <div class="app-sidenav-content ">
-
-
+    <div class="app-sidenav-content">
       <div class="wrapper" style="height:100%">
         <router-outlet></router-outlet>
       </div>
-
     </div>
-
   </mat-sidenav-container>
 </div>
