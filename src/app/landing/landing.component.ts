@@ -56,6 +56,10 @@ export class LandingComponent implements OnInit {
     this.router.navigate(['/bottles']);
   }
 
+  getCategoryImageUrl(category: HomeCategory): string {
+    return `/api/category-images/${category.id}`;
+  }
+
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     if (img) {

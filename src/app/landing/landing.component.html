@@ -6,13 +6,15 @@
   <div class="categories-section">
     <h2 class="section-title">Popular Categories</h2>
     <div class="cards-grid">
-      <mat-card 
-        *ngFor="let category of categories" 
+      <mat-card
+        *ngFor="let category of categories"
         class="category-card"
+        [class.has-image]="category.image"
         (click)="navigateToCategory(category)">
         <mat-card-content>
           <div class="category-content">
-            <h3 class="category-name">{{ category.name }}</h3>
+            <img *ngIf="category.image" [src]="getCategoryImageUrl(category)" class="category-image" [alt]="category.name" (error)="onImageError($event)">
+            <h3 *ngIf="!category.image" class="category-name">{{ category.name }}</h3>
           </div>
         </mat-card-content>
       </mat-card>
