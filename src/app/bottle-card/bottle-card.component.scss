@@ -23,7 +23,7 @@
   }
 
   .image-container {
-    height: 200px;
+    height: 550px;
     overflow: hidden;
     background: #f5f5f5;
     display: flex;
@@ -104,7 +104,7 @@
 }
 
 ::ng-deep .spin {
-  > svg > circle {
+  >svg>circle {
     stroke: white;
   }
 }
