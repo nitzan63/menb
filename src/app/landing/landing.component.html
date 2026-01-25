@@ -25,14 +25,18 @@
   <div class="countries-section">
     <h2 class="section-title">Popular Countries</h2>
     <div class="cards-grid">
-      <mat-card 
-        *ngFor="let country of countries" 
+      <mat-card
+        *ngFor="let country of countries"
         class="country-card"
+        [class.has-image]="country.image"
         (click)="navigateToCountry(country)">
         <mat-card-content>
           <div class="country-content">
-            <span class="flag-emoji">{{ country.flagEmoji }}</span>
-            <h3>{{ country.name }}</h3>
+            <img *ngIf="country.image" [src]="getCountryImageUrl(country)" class="country-image" [alt]="country.name" (error)="onImageError($event)">
+            <ng-container *ngIf="!country.image">
+              <span class="flag-emoji">{{ country.flagEmoji }}</span>
+              <h3>{{ country.name }}</h3>
+            </ng-container>
           </div>
         </mat-card-content>
       </mat-card>

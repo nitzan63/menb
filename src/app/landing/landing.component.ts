@@ -72,6 +72,10 @@ export class LandingComponent implements OnInit {
     return `/api/category-images/${category.id}`;
   }
 
+  getCountryImageUrl(country: HomeCountry): string {
+    return `/api/country-images/${country.id}`;
+  }
+
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     if (img) {

@@ -95,10 +95,30 @@ export class HomeConfigComponent implements OnInit {
     const repo = this.remult.repo(HomeCountry);
     const c = country || repo.create();
 
+    // Ensure we have an id for uploads
+    if (!country && c._.isNew()) {
+      await c._.save();
+    }
+
     await openDialog(InputAreaComponent, (d) => {
       d.args = {
         title: country ? 'Edit Home Country' : 'Add Home Country',
         fields: () => [c.$.name, c.$.filterValue, c.$.flagEmoji, c.$.displayOrder, c.$.enabled],
+        buttons: [
+          {
+            text: 'Upload Image',
+            click: async () => {
+              await openDialog(UploadImageComponent, (x) => {
+                x.args = {
+                  bottleId: c.id,
+                  afterUpload: (image: string) => {
+                    c.image = image;
+                  },
+                };
+              });
+            },
+          },
+        ],
         ok: async () => {
           await c._.save();
         },

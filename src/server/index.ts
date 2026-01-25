@@ -19,7 +19,7 @@ import { getJwtTokenSignKey } from '../app/users/users';
 import '../app/bottles/bottles';
 import { BottleImages, SmallImages } from '../app/bottles/bottles';
 import '../app/my-collection/collection-data';
-import { Gallery, HomeCategory } from '../app/my-collection/collection-data';
+import { Gallery, HomeCategory, HomeCountry } from '../app/my-collection/collection-data';
 import * as sharp from 'sharp';
 import { Pool, QueryResult } from 'pg';
 import { Remult, SqlDatabase } from 'remult';
@@ -224,6 +224,43 @@ async function startup() {
       if (category.image.includes(',')) {
         // Base64 image
         let split = category.image.split(',');
+        let type = split[0].substring(5).replace(';base64', '');
+        res.contentType(type);
+        res.send(Buffer.from(split[1], 'base64'));
+        return;
+      }
+
+      return noImage();
+    } catch (err: any) {
+      console.log({ url: req.url, err });
+      res.status(500).json(err);
+    }
+  });
+
+  app.get('/api/country-images/:id', async (req, res) => {
+    try {
+      const noImage = () =>
+        res.sendFile(process.cwd() + '/dist/men-collection/assets/wine.png');
+
+      if (process.env['NO_IMAGE']) {
+        return noImage();
+      }
+      let remult = await api.getRemult(req);
+      const country = await remult.repo(HomeCountry).findId(req.params.id);
+      if (!country || !country.image) {
+        return noImage();
+      }
+
+      if (country.image === 's3') {
+        const r = await getFromS3(country.id, 'countryImages');
+        res.contentType(r.ContentType!);
+        res.send(await r.getBuffer());
+        return;
+      }
+
+      if (country.image.includes(',')) {
+        // Base64 image
+        let split = country.image.split(',');
         let type = split[0].substring(5).replace(';base64', '');
         res.contentType(type);
         res.send(Buffer.from(split[1], 'base64'));

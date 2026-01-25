@@ -117,6 +117,9 @@ export class HomeCountry extends IdEntity {
   @Field({ caption: 'Flag Emoji' })
   flagEmoji: string = '';
 
+  @Field({ caption: 'Image' })
+  image: string = '';
+
   @Field({ caption: 'Order', dbName: 'display_order' })
   displayOrder: number = 0;
 

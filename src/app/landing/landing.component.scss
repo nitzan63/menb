@@ -210,6 +210,27 @@
       transform: scale(1.1);
     }
   }
+
+  &.has-image {
+    height: 140px;
+
+    mat-card-content {
+      padding: 0;
+      height: 100%;
+
+      .country-content {
+        height: 140px;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.country-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .browse-all-section {
@@ -442,6 +463,18 @@
 
   .category-name {
     font-size: 1.2em;
+  }
+
+  .country-card.has-image {
+    height: 100px;
+
+    mat-card-content .country-content {
+      height: 100px;
+    }
+  }
+
+  .country-image {
+    height: 100px;
   }
 
   .collection-link-content {
