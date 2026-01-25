@@ -112,7 +112,11 @@ export class HomeConfigComponent implements OnInit {
     await openDialog(InputAreaComponent, (d) => {
       d.args = {
         title: 'Edit Site Settings',
-        fields: () => [this.siteSettings!.$.welcomeTitle],
+        fields: () => [
+          this.siteSettings!.$.welcomeTitle,
+          this.siteSettings!.$.showDescription,
+          this.siteSettings!.$.description
+        ],
         ok: async () => {
           await this.siteSettings!._.save();
         },

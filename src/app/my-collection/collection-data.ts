@@ -136,6 +136,12 @@ export class SiteSettings extends IdEntity {
   @Field({ caption: 'Welcome Title' })
   welcomeTitle: string = "Welcome to Menachem's Bottles Collection";
 
+  @Field({ caption: 'Show Description' })
+  showDescription: boolean = false;
+
+  @Field({ caption: 'Description' })
+  description: string = '';
+
   constructor(public remult: Remult) {
     super();
   }

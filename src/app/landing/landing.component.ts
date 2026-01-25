@@ -14,6 +14,8 @@ export class LandingComponent implements OnInit {
   countries: HomeCountry[] = [];
   showMyCollectionSection = false;
   welcomeTitle = "Welcome to Menachem's Bottles Collection";
+  showDescription = false;
+  description = '';
 
   constructor(private router: Router, private remult: Remult) { }
 
@@ -34,8 +36,12 @@ export class LandingComponent implements OnInit {
       });
 
       const siteSettings = await this.remult.repo(SiteSettings).findFirst({});
-      if (siteSettings?.welcomeTitle) {
-        this.welcomeTitle = siteSettings.welcomeTitle;
+      if (siteSettings) {
+        if (siteSettings.welcomeTitle) {
+          this.welcomeTitle = siteSettings.welcomeTitle;
+        }
+        this.showDescription = siteSettings.showDescription;
+        this.description = siteSettings.description;
       }
     } catch (error) {
       console.error('Failed to load home configuration', error);

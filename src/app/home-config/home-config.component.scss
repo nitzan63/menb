@@ -38,18 +38,25 @@
   padding: 16px;
   background: #fafafa;
   border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .settings-label {
   font-weight: 500;
   color: #333;
-  min-width: 120px;
+  min-width: 140px;
 }
 
 .settings-value {
   flex: 1;
   color: #555;
   font-size: 15px;
+}
+
+.settings-actions {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
 }
 
 // Make dialogs wider

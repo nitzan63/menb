@@ -12,7 +12,17 @@
       <div class="settings-row">
         <span class="settings-label">Welcome Title:</span>
         <span class="settings-value">{{ siteSettings.welcomeTitle }}</span>
-        <button mat-raised-button color="primary" (click)="editSiteSettings()">Edit</button>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">Show Description:</span>
+        <span class="settings-value">{{ siteSettings.showDescription ? 'Yes' : 'No' }}</span>
+      </div>
+      <div class="settings-row" *ngIf="siteSettings.showDescription">
+        <span class="settings-label">Description:</span>
+        <span class="settings-value">{{ siteSettings.description || '(not set)' }}</span>
+      </div>
+      <div class="settings-actions">
+        <button mat-raised-button color="primary" (click)="editSiteSettings()">Edit Settings</button>
       </div>
     </mat-card-content>
   </mat-card>

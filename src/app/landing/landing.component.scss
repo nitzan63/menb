@@ -32,6 +32,17 @@
   letter-spacing: 1px;
 }
 
+.welcome-description {
+  max-width: 800px;
+  margin: 24px auto 0;
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
+}
+
 .section-title {
   font-size: 2em;
   font-weight: 300;
@@ -401,6 +412,11 @@
 @media (max-width: 768px) {
   .welcome-title {
     font-size: 1.8em;
+  }
+
+  .welcome-description {
+    font-size: 1em;
+    margin-top: 16px;
   }
 
   .section-title {
