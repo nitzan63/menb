@@ -3,7 +3,7 @@ import { Remult } from 'remult';
 import { GridSettings, openDialog } from '@remult/angular';
 import { Roles } from '../users/roles';
 import { DialogService } from '../common/dialog';
-import { HomeCategory, HomeCountry } from '../my-collection/collection-data';
+import { HomeCategory, HomeCountry, SiteSettings } from '../my-collection/collection-data';
 import { InputAreaComponent } from '../common/input-area/input-area.component';
 import { UploadImageComponent } from '../bottles/upload-image.component';
 
@@ -15,13 +15,17 @@ import { UploadImageComponent } from '../bottles/upload-image.component';
 export class HomeConfigComponent implements OnInit {
   categoriesGrid?: GridSettings<HomeCategory>;
   countriesGrid?: GridSettings<HomeCountry>;
+  siteSettings?: SiteSettings;
 
   constructor(public remult: Remult, private dialog: DialogService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (!this.remult.isAllowed(Roles.admin)) {
       return;
     }
+
+    // Load or create site settings
+    this.siteSettings = await this.remult.repo(SiteSettings).findFirst({}, { createIfNotFound: true });
 
     this.categoriesGrid = new GridSettings(this.remult.repo(HomeCategory), {
       allowCrud: true,
@@ -97,6 +101,20 @@ export class HomeConfigComponent implements OnInit {
         fields: () => [c.$.name, c.$.filterValue, c.$.flagEmoji, c.$.displayOrder, c.$.enabled],
         ok: async () => {
           await c._.save();
+        },
+      };
+    });
+  }
+
+  async editSiteSettings(): Promise<void> {
+    if (!this.siteSettings) return;
+
+    await openDialog(InputAreaComponent, (d) => {
+      d.args = {
+        title: 'Edit Site Settings',
+        fields: () => [this.siteSettings!.$.welcomeTitle],
+        ok: async () => {
+          await this.siteSettings!._.save();
         },
       };
     });

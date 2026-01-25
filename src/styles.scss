@@ -47,15 +47,33 @@ body {
   margin: 0 !important;
   max-width: 90vw !important;
   max-height: 90vh !important;
-  width: auto !important;
+  min-width: 400px !important;
   height: auto !important;
   box-sizing: border-box !important;
 
   @media (max-width: 768px) {
     max-width: 100vw !important;
     max-height: 100vh !important;
+    min-width: unset !important;
     width: 100vw !important;
     height: 100vh !important;
+  }
+}
+
+// Make form fields in dialogs full width
+.mat-dialog-content {
+  min-width: 350px;
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  data-area {
+    display: block;
+
+    .mat-form-field {
+      width: 100%;
+    }
   }
 }
 

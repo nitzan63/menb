@@ -1,19 +1,64 @@
 .home-config-page {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.config-card {
-  max-width: 1100px;
+  padding: 24px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
+.home-config-page h2 {
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.config-card {
+  width: 100%;
+  margin-bottom: 24px;
+
+  mat-card-header {
+    padding: 16px 16px 0;
+  }
+
+  mat-card-content {
+    padding: 16px;
+  }
+}
+
 .hint {
-  margin-top: 12px;
+  margin-top: 16px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
   font-size: 13px;
   color: #555;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.settings-label {
+  font-weight: 500;
+  color: #333;
+  min-width: 120px;
+}
+
+.settings-value {
+  flex: 1;
+  color: #555;
+  font-size: 15px;
+}
+
+// Make dialogs wider
+::ng-deep .mat-dialog-container {
+  min-width: 450px !important;
+}
+
+::ng-deep .mat-form-field {
+  width: 100%;
 }
 
 

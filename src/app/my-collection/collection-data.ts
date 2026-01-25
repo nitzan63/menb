@@ -128,4 +128,17 @@ export class HomeCountry extends IdEntity {
   }
 }
 
+@Entity<SiteSettings>('SiteSettings', {
+  allowApiCrud: Roles.admin,
+  allowApiRead: true,
+})
+export class SiteSettings extends IdEntity {
+  @Field({ caption: 'Welcome Title' })
+  welcomeTitle: string = "Welcome to Menachem's Bottles Collection";
+
+  constructor(public remult: Remult) {
+    super();
+  }
+}
+
 

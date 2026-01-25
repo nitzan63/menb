@@ -7,3 +7,25 @@
     border-radius: 10px;
     border-color: lightgray;
 }
+
+:host {
+    display: block;
+    min-width: 400px;
+}
+
+::ng-deep {
+    mat-dialog-content {
+        padding: 16px 24px !important;
+        min-width: 350px;
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    mat-dialog-actions {
+        padding: 12px 24px !important;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+}

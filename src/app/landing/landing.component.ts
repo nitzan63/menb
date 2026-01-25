@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Remult } from 'remult';
-import { HomeCategory, HomeCountry } from '../my-collection/collection-data';
+import { HomeCategory, HomeCountry, SiteSettings } from '../my-collection/collection-data';
 
 @Component({
   selector: 'app-landing',
@@ -13,6 +13,7 @@ export class LandingComponent implements OnInit {
   categories: HomeCategory[] = [];
   countries: HomeCountry[] = [];
   showMyCollectionSection = false;
+  welcomeTitle = "Welcome to Menachem's Bottles Collection";
 
   constructor(private router: Router, private remult: Remult) { }
 
@@ -31,6 +32,11 @@ export class LandingComponent implements OnInit {
         where: { enabled: true },
         orderBy: { displayOrder: 'asc' }
       });
+
+      const siteSettings = await this.remult.repo(SiteSettings).findFirst({});
+      if (siteSettings?.welcomeTitle) {
+        this.welcomeTitle = siteSettings.welcomeTitle;
+      }
     } catch (error) {
       console.error('Failed to load home configuration', error);
       this.categories = [];

@@ -1,6 +1,22 @@
 <div class="home-config-page">
   <h2>Home Page Configuration</h2>
 
+  <mat-card class="config-card" *ngIf="siteSettings">
+    <mat-card-header>
+      <mat-card-title>Site Settings</mat-card-title>
+      <mat-card-subtitle>
+        Configure the welcome title displayed on the landing page.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="settings-row">
+        <span class="settings-label">Welcome Title:</span>
+        <span class="settings-value">{{ siteSettings.welcomeTitle }}</span>
+        <button mat-raised-button color="primary" (click)="editSiteSettings()">Edit</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card class="config-card">
     <mat-card-header>
       <mat-card-title>Home Categories</mat-card-title>
