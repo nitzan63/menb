@@ -27,7 +27,7 @@ import { base64ToS3 } from '../../server/play-with-s3';
 @Entity<Bottles>('Bottles', {
   allowApiCrud: Roles.admin,
   allowApiRead: true,
-  defaultOrderBy: { createDate: 'desc' },
+  defaultOrderBy: { name: 'asc' },
   saving: (self) => {
     if (self.isNew()) self.createDate = new Date();
   },
